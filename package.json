@@ -1,0 +1,44 @@
+{
+  "name": "34",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env APP_MODE=\"local\" nuxt dev",
+    "build": "cross-env APP_MODE=\"production\" nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "format": "eslint . --fix"
+  },
+  "volta": {
+    "node": "22.4.0",
+    "yarn": "4.0.0"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "dependencies": {
+    "nuxt": "^3.14.1592",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@nuxt/eslint": "^0.7.2",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@stylistic/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "@vue/eslint-config-prettier": "^10.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.17.0",
+    "eslint-plugin-nuxt": "^4.0.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-vue": "^9.32.0",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.1",
+    "sass": "^1.79.5",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1"
+  }
+}

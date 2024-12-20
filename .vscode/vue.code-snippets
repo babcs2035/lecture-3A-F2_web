@@ -1,0 +1,7 @@
+{
+  "snippet for vue": {
+    "prefix": "t",
+    "body": ["<template></template>", "", "<script setup lang=\"ts\"></script>", "", "<style scoped lang=\"scss\"></style>", ""],
+    "description": "snippet for vue file",
+  },
+}

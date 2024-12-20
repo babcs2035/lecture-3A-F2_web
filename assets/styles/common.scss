@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&display=swap");
+
+html,
+body {
+  margin: 0;
+  overflow-x: hidden;
+  color: $text_black;
+  font-style: normal;
+  font-family: "Noto Sans JP", serif;
+
+  font-optical-sizing: auto;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-y: none;
+}
+
+img,
+svg {
+  user-select: none;
+  -webkit-user-select: none;
+
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background-color: rgba($accent1, 0.4);
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+  background: rgba($main2_soft, 0.4);
+  cursor: pointer;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 11px;
+  background-color: rgba($main2_dull, 0.5);
+  cursor: pointer;
+  &:hover {
+    background-color: rgba($main2_dull, 0.7);
+  }
+}
+
+a {
+  color: $main1_dull;
+  text-decoration: none;
+  transition: color 0.3s;
+
+  &:hover {
+    color: $main1_soft;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Zen Kaku Gothic New", serif;
+}
+
+.heading-font {
+  font-family: "Zen Kaku Gothic New", serif;
+}

@@ -1,0 +1,48 @@
+name: deploy
+on:
+    push:
+        branches:
+            - master
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 60
+        steps:
+            - name: checkout
+              uses: actions/checkout@main
+
+            - name: clear npm cache
+              run: npm cache clean --force
+
+            - name: setup volta
+              uses: volta-cli/action@master
+
+            - name: module install
+              run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn
+
+            - name: build project
+              run: NODE_OPTIONS="--max-old-space-size=4096" yarn build
+
+            - name: deploy to server
+              uses: nogsantos/scp-deploy@master
+              with:
+                  src: ./.output/*
+                  key: ${{ secrets.SSH_PRIVATEKEY }}
+                  host: ${{ secrets.SSH_HOST }}
+                  port: ${{ secrets.SSH_PORT }}
+                  user: ${{ secrets.SSH_USERNAME }}
+                  remote: ${{ secrets.SSH_REMOTE }}
+
+            - name: restart application
+              uses: appleboy/ssh-action@master
+              with:
+                  key: ${{ secrets.SSH_PRIVATEKEY }}
+                  host: ${{secrets.SSH_HOST}}
+                  port: ${{secrets.SSH_PORT}}
+                  username: ${{secrets.SSH_USERNAME}}
+                  script: |
+                      cd ${{secrets.SSH_REMOTE}}
+                      ~/.volta/bin/pm2 restart ${{secrets.PM2_APP_NAME}} --update-env
+
