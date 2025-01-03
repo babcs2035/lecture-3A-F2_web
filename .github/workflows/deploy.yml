@@ -60,4 +60,5 @@ jobs:
                       cd ${{ secrets.SSH_REMOTE_SERVER }}
                       ~/.volta/bin/pm2 restart ${{ secrets.PM2_APP_NAME }} --update-env
                       cd ${{ secrets.SSH_REMOTE_CLIENT }}
+                      cd ../../
                       ~/.volta/bin/npx wrangler pages deploy dist --project-name ktak-dev
