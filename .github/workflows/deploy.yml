@@ -55,6 +55,7 @@ jobs:
                   host: ${{ secrets.SSH_HOST }}
                   port: ${{ secrets.SSH_PORT }}
                   username: ${{ secrets.SSH_USERNAME }}
+                  command_timeout: 64m
                   script: |
                       cd ${{ secrets.SSH_REMOTE_SERVER }}
                       ~/.volta/bin/pm2 restart ${{ secrets.PM2_APP_NAME }} --update-env
