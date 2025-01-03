@@ -22,10 +22,10 @@ jobs:
             - name: module install
               run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn
 
-            - name: build project
+            - name: build server
               run: NODE_OPTIONS="--max-old-space-size=4096" yarn build
 
-            - name: deploy to server
+            - name: deploy server
               uses: nogsantos/scp-deploy@master
               with:
                   src: ./.output/*
@@ -33,16 +33,30 @@ jobs:
                   host: ${{ secrets.SSH_HOST }}
                   port: ${{ secrets.SSH_PORT }}
                   user: ${{ secrets.SSH_USERNAME }}
-                  remote: ${{ secrets.SSH_REMOTE }}
+                  remote: ${{ secrets.SSH_REMOTE_SERVER }}
 
-            - name: restart application
+            - name: build client
+              run: NODE_OPTIONS="--max-old-space-size=4096" yarn generate
+
+            - name: deploy client
+              uses: nogsantos/scp-deploy@master
+              with:
+                  src: ./.output/*
+                  key: ${{ secrets.SSH_PRIVATEKEY }}
+                  host: ${{ secrets.SSH_HOST }}
+                  port: ${{ secrets.SSH_PORT }}
+                  user: ${{ secrets.SSH_USERNAME }}
+                  remote: ${{ secrets.SSH_REMOTE_CLIENT }}
+
+            - name: deploy to Cloudflare
               uses: appleboy/ssh-action@master
               with:
                   key: ${{ secrets.SSH_PRIVATEKEY }}
-                  host: ${{secrets.SSH_HOST}}
-                  port: ${{secrets.SSH_PORT}}
-                  username: ${{secrets.SSH_USERNAME}}
+                  host: ${{ secrets.SSH_HOST }}
+                  port: ${{ secrets.SSH_PORT }}
+                  username: ${{ secrets.SSH_USERNAME }}
                   script: |
-                      cd ${{secrets.SSH_REMOTE}}
-                      ~/.volta/bin/pm2 restart ${{secrets.PM2_APP_NAME}} --update-env
-
+                      cd ${{ secrets.SSH_REMOTE_SERVER }}
+                      ~/.volta/bin/pm2 restart ${{ secrets.PM2_APP_NAME }} --update-env
+                      cd ${{ secrets.SSH_REMOTE_CLIENT }}
+                      npx wrangler pages deploy dist --project-name ktak-dev

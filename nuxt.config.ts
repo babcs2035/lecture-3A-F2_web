@@ -61,5 +61,10 @@ export default defineNuxtConfig({
         { property: "og:url", content: fullURL },
       ],
     },
-  }
+  },
+  nitro: {
+    prerender: {
+      failOnError: false,
+    },
+  },
 })
