@@ -41,14 +41,14 @@ jobs:
             - name: deploy client
               uses: nogsantos/scp-deploy@master
               with:
-                  src: ./.output/*
+                  src: ./.output/public/*
                   key: ${{ secrets.SSH_PRIVATEKEY }}
                   host: ${{ secrets.SSH_HOST }}
                   port: ${{ secrets.SSH_PORT }}
                   user: ${{ secrets.SSH_USERNAME }}
                   remote: ${{ secrets.SSH_REMOTE_CLIENT }}
 
-            - name: deploy to Cloudflare
+            - name: Finalize deployment
               uses: appleboy/ssh-action@master
               with:
                   key: ${{ secrets.SSH_PRIVATEKEY }}
@@ -59,4 +59,4 @@ jobs:
                       cd ${{ secrets.SSH_REMOTE_SERVER }}
                       ~/.volta/bin/pm2 restart ${{ secrets.PM2_APP_NAME }} --update-env
                       cd ${{ secrets.SSH_REMOTE_CLIENT }}
-                      npx wrangler pages deploy dist --project-name ktak-dev
+                      ~/.volta/bin/npx wrangler pages deploy dist --project-name ktak-dev
