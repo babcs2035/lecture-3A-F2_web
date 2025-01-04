@@ -6,7 +6,7 @@
     "dev": "cross-env APP_MODE=\"local\" nuxt dev",
     "build": "cross-env APP_MODE=\"production\" nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate",
+    "generate": "cross-env APP_MODE=\"production\" nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",

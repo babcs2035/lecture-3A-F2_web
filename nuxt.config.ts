@@ -42,9 +42,9 @@ export default defineNuxtConfig({
     baseURL,
     head: {
       link: [
-        { rel: "icon", type: "image/x-icon", href: baseURL + "favicon.ico" },
-        { rel: "apple-touch-icon", sizes: "180x180", href: baseURL + "apple-touch-icon.png" },
-        { rel: "icon", type: "image/png", sizes: "192x192", href: baseURL + "android-touch-icon.png" },
+        { rel: "icon", type: "image/x-icon", href: fullURL + "/favicon.ico" },
+        { rel: "apple-touch-icon", sizes: "180x180", href: fullURL + "/apple-touch-icon.png" },
+        { rel: "icon", type: "image/png", sizes: "192x192", href: fullURL + "/android-touch-icon.png" },
       ],
       meta: [
         { charset: "utf-8" },
