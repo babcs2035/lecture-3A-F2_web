@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const APP_MODE = process.env.APP_MODE || "local";
-const baseURL = APP_MODE === "local" ? "/" : "/34/";
-const fullURL = APP_MODE === "local" ? "http://localhost:3000" : "https://ktak.dev/34";
+const baseURL = APP_MODE === "local" ? "/" : "/amp-track/";
+const fullURL = APP_MODE === "local" ? "http://localhost:3000" : "https://ktak.dev/amp-track";
 process.env.TZ = "Asia/Tokyo";
 
 export default defineNuxtConfig({
@@ -49,12 +49,12 @@ export default defineNuxtConfig({
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { name: "title", content: "34" },
+        { name: "title", content: "amp-track" },
         // { name: "description", content: "" },
-        { name: "apple-mobile-web-app-title", content: "34" },
+        { name: "apple-mobile-web-app-title", content: "amp-track" },
         // { name: "thumbnail", content: ogImage },
-        { property: "og:title", content: "34" },
-        { property: "og:site_name", content: "34" },
+        { property: "og:title", content: "amp-track" },
+        { property: "og:site_name", content: "amp-track" },
         // { property: "og:description", content: "" },
         // { property: "og:image", content: ogImage },
         { property: "og:type", content: "website" },

@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-const defaultTitle = "34";
+const defaultTitle = "amp-track";
 
 useHead({
   titleTemplate: (titleChunk) => {
