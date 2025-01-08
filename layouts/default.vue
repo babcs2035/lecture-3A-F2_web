@@ -15,6 +15,7 @@ div {
   min-height: 100dvh;
   min-height: 100lvh;
   overflow: hidden;
+  background-color: rgba($main3_soft, 0.2);
 
   main {
     flex-grow: 1;
