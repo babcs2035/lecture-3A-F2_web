@@ -22,19 +22,6 @@ jobs:
             - name: module install
               run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn
 
-            - name: build server
-              run: NODE_OPTIONS="--max-old-space-size=4096" yarn build
-
-            - name: deploy server
-              uses: nogsantos/scp-deploy@master
-              with:
-                  src: ./.output/*
-                  key: ${{ secrets.SSH_PRIVATEKEY }}
-                  host: ${{ secrets.SSH_HOST }}
-                  port: ${{ secrets.SSH_PORT }}
-                  user: ${{ secrets.SSH_USERNAME }}
-                  remote: ${{ secrets.SSH_REMOTE_SERVER }}
-
             - name: build client
               run: NODE_OPTIONS="--max-old-space-size=4096" yarn generate
 
@@ -57,8 +44,6 @@ jobs:
                   username: ${{ secrets.SSH_USERNAME }}
                   command_timeout: 64m
                   script: |
-                      cd ${{ secrets.SSH_REMOTE_SERVER }}
-                      ~/.volta/bin/pm2 restart ${{ secrets.PM2_APP_NAME }} --update-env
                       cd ${{ secrets.SSH_REMOTE_CLIENT }}
                       cd ../../
                       ~/.volta/bin/npx wrangler pages deploy dist --project-name ktak-dev

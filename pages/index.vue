@@ -1,6 +1,7 @@
 <template>
   <article>
     Hello, World
+    <VBtn>Button</VBtn>
   </article>
 </template>
 
