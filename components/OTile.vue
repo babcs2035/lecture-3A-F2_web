@@ -1,10 +1,22 @@
 <template>
-  <section class="tile-container" :style="getTileStyle()">
-    <p class="title heading-font">{{ deviceId }}</p>
-    <p class="info">{{ status }}</p>
-    <p v-if="status !== 'UNKNOWN'" class="info">{{ ampere }} mA</p>
-    <p class="datetime">{{ datetime }}</p>
-  </section>
+  <v-dialog>
+    <template v-slot:activator="{ props: activatorProps }">
+      <v-btn v-bind="activatorProps" class="tile-container" :style="getTileStyle()">
+        <p class="title heading-font">{{ deviceId }}</p>
+        <p class="info">{{ status }}</p>
+        <p v-if="status !== 'UNKNOWN'" class="info">{{ ampere }} mA</p>
+        <p class="datetime">{{ datetime }}</p>
+      </v-btn>
+    </template>
+
+    <template v-slot:default="{ isActive }">
+      <m-detail :device-id="deviceId" />
+      <!-- <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text="Close Dialog" @click="isActive.value = false"></v-btn>
+      </v-card-actions> -->
+    </template>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -52,16 +64,21 @@ function getTileStyle() {
 
 <style scoped lang="scss">
 .tile-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 16em;
+  height: 16em !important;
   border: 2px solid $main1_soft;
   border-radius: 1em;
-  user-select: none;
 
-  aspect-ratio: 1;
+  :deep(.v-btn__content) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: normal;
+    font-family: "Noto Sans JP", serif;
+    letter-spacing: normal;
+    text-transform: none;
+  }
 
   .title {
     max-width: 95%;

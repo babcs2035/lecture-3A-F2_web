@@ -3,7 +3,7 @@
     <client-only>
       <h2 class="devices-num">デバイス数：{{ devicesData.length }}</h2>
       <section class="devices-container">
-        <a-tile v-for="device in devicesData" :key="device" :device-id="device" />
+        <o-tile v-for="device in devicesData" :key="device" :device-id="device" />
       </section>
     </client-only>
   </article>
