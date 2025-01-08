@@ -1739,6 +1739,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.4
+  resolution: "@kurkle/color@npm:0.3.4"
+  checksum: 0e9fd55c614b005c5f0c4c755bca19ec0293bc7513b4ea3ec1725234f9c2fa81afbc78156baf555c8b9cb0d305619253c3f5bca016067daeebb3d00ebb4ea683
+  languageName: node
+  linkType: hard
+
 "@kwsites/file-exists@npm:^1.1.1":
   version: 1.1.1
   resolution: "@kwsites/file-exists@npm:1.1.1"
@@ -3564,6 +3571,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^8.17.0"
     "@typescript-eslint/parser": "npm:^8.17.0"
     "@vue/eslint-config-prettier": "npm:^10.1.0"
+    chart.js: "npm:^4.4.7"
     cross-env: "npm:^7.0.3"
     eslint: "npm:^9.17.0"
     eslint-plugin-nuxt: "npm:^4.0.0"
@@ -3578,6 +3586,7 @@ __metadata:
     typescript: "npm:^5.7.2"
     typescript-eslint: "npm:^8.18.1"
     vue: "npm:latest"
+    vue-chartjs: "npm:^5.3.2"
     vue-router: "npm:latest"
     vuefire: "npm:^3.2.1"
     vuetify-nuxt-module: "npm:^0.18.3"
@@ -4113,6 +4122,15 @@ __metadata:
   version: 5.4.4
   resolution: "change-case@npm:5.4.4"
   checksum: 2a9c2b9c9ad6ab2491105aaf506db1a9acaf543a18967798dcce20926c6a173aa63266cb6189f3086e3c14bf7ae1f8ea4f96ecc466fcd582310efa00372f3734
+  languageName: node
+  linkType: hard
+
+"chart.js@npm:^4.4.7":
+  version: 4.4.7
+  resolution: "chart.js@npm:4.4.7"
+  dependencies:
+    "@kurkle/color": "npm:^0.3.0"
+  checksum: 9db499993c561f11184112003956ba96cf00513e025f58846be36e75ebddc6cbab2f93626c3734c305bc801e9362a9ef193b9591e679c59903b2ecb48cfcb317
   languageName: node
   linkType: hard
 
@@ -11557,6 +11575,16 @@ __metadata:
   dependencies:
     ufo: "npm:^1.5.4"
   checksum: c5c241a2395ee34d8105fb6010027165f54f79f7cffebb73cb9da35b9ec006d910457b3e32026688f7f6a718e660040abffc43cd559d1e31cfea22b32fa0ba7f
+  languageName: node
+  linkType: hard
+
+"vue-chartjs@npm:^5.3.2":
+  version: 5.3.2
+  resolution: "vue-chartjs@npm:5.3.2"
+  peerDependencies:
+    chart.js: ^4.1.1
+    vue: ^3.0.0-0 || ^2.7.0
+  checksum: e07d6766d058ecb11798ce3764105db2878c77bb6c887bf634644b5bf763e881e749b0d1a2981281126c889206b7fbe3b8db43ede275f951a84ec6087a83ff4e
   languageName: node
   linkType: hard
 
