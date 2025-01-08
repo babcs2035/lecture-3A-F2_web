@@ -14,7 +14,7 @@ export default defineNuxtConfig({
       fullURL,
     },
   },
-  ssr: true,
+  ssr: false,
   css: ["@/assets/styles/common.scss"],
   vite: {
     css: {
