@@ -37,7 +37,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  modules: ["@nuxt/eslint", "vuetify-nuxt-module", "nuxt-vuefire", "@vite-pwa/nuxt"],
+  modules: ["@nuxt/eslint", "vuetify-nuxt-module", "nuxt-vuefire", "@vite-pwa/nuxt", "@nuxtjs/leaflet"],
   vuefire: {
     config: {
       apiKey: process.env.FIREBASE_API_KEY,

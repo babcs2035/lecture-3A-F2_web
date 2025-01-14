@@ -3125,6 +3125,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nuxtjs/leaflet@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "@nuxtjs/leaflet@npm:1.2.6"
+  dependencies:
+    "@types/leaflet": "npm:^1.9.15"
+    "@vue-leaflet/vue-leaflet": "npm:^0.10.1"
+    leaflet: "npm:^1.9.4"
+  checksum: 9f8cddc34244c3fe9f8f4180d1f84f6496bd07d4033d17a40cc730d598c63dae5387b1882a7473fe37935346d54b43adb8b1450822cafe10803c92b7441b4ef7
+  languageName: node
+  linkType: hard
+
 "@parcel/watcher-android-arm64@npm:2.5.0":
   version: 2.5.0
   resolution: "@parcel/watcher-android-arm64@npm:2.5.0"
@@ -3789,6 +3800,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/geojson@npm:*":
+  version: 7946.0.15
+  resolution: "@types/geojson@npm:7946.0.15"
+  checksum: 535d21ceaa01717cfdacc8f3dcbb7bc60a04361f401d80e60be22ce8dea23d669e4d0026c2c3da1168e807ee5ad4c9b2b4913ecd78eb0aabbcf76e92dc69808d
+  languageName: node
+  linkType: hard
+
 "@types/http-proxy@npm:^1.17.15":
   version: 1.17.15
   resolution: "@types/http-proxy@npm:1.17.15"
@@ -3809,6 +3827,15 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 6bf5337bc447b706bb5b4431d37686aa2ea6d07cfd6f79cc31de80170d6ff9b1c7384a9c0ccbc45b3f512bae9e9f75c2e12109806a15331dc94e8a8db6dbb4ac
+  languageName: node
+  linkType: hard
+
+"@types/leaflet@npm:^1.9.15":
+  version: 1.9.16
+  resolution: "@types/leaflet@npm:1.9.16"
+  dependencies:
+    "@types/geojson": "npm:*"
+  checksum: 80403093b918ed19911997dc8ebe1aac44f49ada065f5b60ea451f6b8c92ffc942ef49706f7faa1a4e7c62824390a44d407bd5b1a9cfbbaea82c1501129c919a
   languageName: node
   linkType: hard
 
@@ -4225,6 +4252,21 @@ __metadata:
   peerDependencies:
     "@eslint/config-array": ">=0.16.0"
   checksum: 56aa6b79bbeaa20900843ad5c9fd0bb89002c2e0a2ce3549bcfffb40c4a2d6620a1d4b6f06c44faeb3bd6dba8c89cc677dd3c0bf47d5054d25884fc943c79a04
+  languageName: node
+  linkType: hard
+
+"@vue-leaflet/vue-leaflet@npm:^0.10.1":
+  version: 0.10.1
+  resolution: "@vue-leaflet/vue-leaflet@npm:0.10.1"
+  dependencies:
+    vue: "npm:^3.2.25"
+  peerDependencies:
+    "@types/leaflet": ^1.5.7
+    leaflet: ^1.6.0
+  peerDependenciesMeta:
+    "@types/leaflet":
+      optional: true
+  checksum: 0e44e340821f4007beef9132378f756b95daeb6d2d5434b9f20559fcc4a21424586e9200e21ae46ca3b5fbde4c1b6cf282145245a72b225ee464d11db8ac4cf4
   languageName: node
   linkType: hard
 
@@ -6010,6 +6052,7 @@ __metadata:
     "@eslint/js": "npm:^9.17.0"
     "@nuxt/eslint": "npm:^0.7.2"
     "@nuxtjs/eslint-config-typescript": "npm:^12.1.0"
+    "@nuxtjs/leaflet": "npm:^1.2.6"
     "@stylistic/eslint-plugin": "npm:^2.11.0"
     "@typescript-eslint/eslint-plugin": "npm:^8.17.0"
     "@typescript-eslint/parser": "npm:^8.17.0"
@@ -8826,6 +8869,13 @@ __metadata:
   dependencies:
     readable-stream: "npm:^2.0.5"
   checksum: ea4e509a5226ecfcc303ba6782cc269be8867d372b9bcbd625c88955df1987ea1a20da4643bf9270336415a398d33531ebf0d5f0d393b9283dc7c98bfcbd7b69
+  languageName: node
+  linkType: hard
+
+"leaflet@npm:^1.9.4":
+  version: 1.9.4
+  resolution: "leaflet@npm:1.9.4"
+  checksum: f639441dbb7eb9ae3fcd29ffd7d3508f6c6106892441634b0232fafb9ffb1588b05a8244ec7085de2c98b5ed703894df246898477836cfd0ce5b96d4717b5ca1
   languageName: node
   linkType: hard
 
@@ -13075,7 +13125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.5.13, vue@npm:latest":
+"vue@npm:^3.2.25, vue@npm:^3.5.13, vue@npm:latest":
   version: 3.5.13
   resolution: "vue@npm:3.5.13"
   dependencies:
