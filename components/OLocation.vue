@@ -89,20 +89,6 @@ function calcDistance() {
   const a = Math.sin((l2 - l1) / 2) ** 2;
   const b = Math.cos(f1) * Math.cos(f2) * Math.sin((l2 - l1) / 2) ** 2;
   distance.value = 2 * R * Math.asin(Math.sqrt(a + b));
-
-  if (distance.value > 0) {
-    const url = "https://hooks.slack.com/services/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";
-    const payload = {
-      text: `ホーム地点までの距離は ${distance.value.toFixed(0)} m だよ．けろけろ．`,
-    };
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-  }
 }
 
 </script>

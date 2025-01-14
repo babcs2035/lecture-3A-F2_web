@@ -159,5 +159,8 @@ export default defineNuxtConfig({
       navigateFallbackAllowlist: [/^\/$/],
       type: "module",
     },
-  }
+  },
+  plugins: [
+    { src: '~/plugins/register-sw.js', mode: 'client' }
+  ]
 })
