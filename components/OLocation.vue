@@ -90,7 +90,7 @@ function calcDistance() {
   const b = Math.cos(f1) * Math.cos(f2) * Math.sin((l2 - l1) / 2) ** 2;
   distance.value = 2 * R * Math.asin(Math.sqrt(a + b));
 
-  if (distance.value > 3) {
+  if (distance.value > 0) {
     sendNotification("ホーム地点から離れています");
   }
 }
