@@ -18,10 +18,14 @@
           </LMarker>
           <LMarker v-if="isHomeLocationSet" :lat-lng="[homeLocation.lat, homeLocation.lng]">
             <LPopup>ホーム地点</LPopup>
+            <LIcon :icon-size="[24, 24]">
+              <img src="~/assets/images/home.svg" alt="Home">
+            </LIcon>
           </LMarker>
         </LMap>
         <v-btn @click="setHomeLocation" class="button">現在地をホーム地点にする</v-btn>
-        <v-btn :disabled="!isHomeLocationSet" @click="deleteHomeLocation" class="button">ホーム地点を削除する</v-btn>
+        <v-btn :disabled="!isHomeLocationSet" @click="deleteHomeLocation" class="button"
+          color="warning">ホーム地点を削除する</v-btn>
       </v-card>
     </template>
   </v-dialog>
@@ -42,10 +46,29 @@ async function getLocation() {
 }
 
 const currentLocation = ref({ lat: 0, lng: 0 });
-currentLocation.value = await getLocation() as { lat: number; lng: number };
-setInterval(async () => {
-  currentLocation.value = await getLocation() as { lat: number; lng: number };
-}, 1500);
+let watchId: number | null = null;
+const updatePosition = (position: GeolocationPosition) => {
+  currentLocation.value.lat = position.coords.latitude;
+  currentLocation.value.lng = position.coords.longitude;
+}
+const handleError = (error: GeolocationPositionError) => {
+  console.error(error);
+  alert(error);
+};
+
+onMounted(() => {
+  if (navigator.geolocation) {
+    watchId = navigator.geolocation.watchPosition(updatePosition, handleError);
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+  }
+});
+
+onUnmounted(() => {
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+  }
+});
 
 const homeLocation = ref({ lat: 0, lng: 0 });
 if (!localStorage.getItem("EnergyTracker_homeLocation")) {
@@ -56,7 +79,8 @@ const isHomeLocationSet = computed(() => homeLocation.value.lat !== 0 || homeLoc
 
 function setHomeLocation() {
   if (confirm("現在地をホーム地点に設定しますか？")) {
-    homeLocation.value = currentLocation.value;
+    homeLocation.value.lat = currentLocation.value.lat;
+    homeLocation.value.lng = currentLocation.value.lng;
     localStorage.setItem("EnergyTracker_homeLocation", JSON.stringify(currentLocation.value));
   }
 }
@@ -92,7 +116,7 @@ function calcDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
 
   .popup-container
   {
-    width: 90vw;
+    width: 80vw;
     max-width: 512px;
     margin: 0;
     padding: 1.5em 2em;
@@ -109,6 +133,20 @@ function calcDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
     {
       margin-top: 1em;
     }
+  }
+}
+
+
+:deep(.leaflet-div-icon)
+{
+  border: none;
+  background: transparent;
+
+  img
+  {
+    width: 24px;
+
+    aspect-ratio: 1;
   }
 }
 </style>
