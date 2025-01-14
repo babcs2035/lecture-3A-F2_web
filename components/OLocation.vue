@@ -91,21 +91,20 @@ function calcDistance() {
   distance.value = 2 * R * Math.asin(Math.sqrt(a + b));
 
   if (distance.value > 0) {
-    sendNotification("ホーム地点から離れています");
+    const url = "https://hooks.slack.com/services/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";
+    const payload = {
+      text: `ホーム地点までの距離は ${distance.value.toFixed(0)} m だよ．けろけろ．`,
+    };
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
   }
 }
 
-function sendNotification(message: string) {
-  if (Notification.permission === "granted") {
-    new Notification(message);
-  } else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(permission => {
-      if (permission === "granted") {
-        new Notification(message);
-      }
-    });
-  }
-};
 </script>
 
 <style scoped lang="scss">
