@@ -20,6 +20,9 @@
                 <div v-else>
                   <p>緯度：{{ homeLocation.lat }}</p>
                   <p>経度：{{ homeLocation.lng }}</p>
+                  <p>現在地との距離：{{ calcDistance(homeLocation.lat, homeLocation.lng, currentLocation.lat,
+                    currentLocation.lng)
+                    }} m</p>
                   <iframe
                     :src="`https://maps.google.com/maps?output=embed&ll=${homeLocation.lat},${homeLocation.lng}&t=m&hl=ja&z=16`"
                     class="map" style="border:0;" allowfullscreen="false" loading="lazy" />
@@ -83,6 +86,18 @@ function deleteHomeLocation() {
     homeLocation.value = { lat: 0, lng: 0 };
     localStorage.setItem("EnergyTracker_homeLocation", JSON.stringify({ lat: 0, lng: 0 }));
   }
+}
+
+function calcDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
+  const R = 6378137.0;
+  const f1 = lat1 * Math.PI / 180;
+  const f2 = lat2 * Math.PI / 180;
+  const l1 = lng1 * Math.PI / 180;
+  const l2 = lng2 * Math.PI / 180;
+  const a = Math.sin((l2 - l1) / 2) ** 2;
+  console.log(Math.sin((l2 - l1) / 2));
+  const b = Math.cos(f1) * Math.cos(f2) * Math.sin((l2 - l1) / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a + b));
 }
 </script>
 
