@@ -7,8 +7,7 @@
       <v-card class="popup-container">
         <p>現在地：({{ currentLocation.lat }}, {{ currentLocation.lng }})</p>
         <p>ホーム地点：{{ isHomeLocationSet ? `(${homeLocation.lat}, ${homeLocation.lng})` : "未設定" }}</p>
-        <p v-if="isHomeLocationSet">ホーム地点までの距離：{{ calcDistance(currentLocation.lat, currentLocation.lng,
-          homeLocation.lat, homeLocation.lng) }} m</p>
+        <p v-if="isHomeLocationSet">ホーム地点までの距離：{{ distance }} m</p>
         <LMap class="map" :zoom="16" :center="[currentLocation.lat, currentLocation.lng]" :use-global-leaflet="false">
           <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
@@ -32,38 +31,25 @@
 </template>
 
 <script setup lang="ts">
-async function getLocation() {
-  return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        resolve({ lat: position.coords.latitude, lng: position.coords.longitude });
-      });
-    } else {
-      alert("Geolocation is not supported by this browser.");
-      reject("Geolocation is not supported by this browser.");
-    }
-  });
-}
-
-const currentLocation = ref({ lat: 0, lng: 0 });
 let watchId: number | null = null;
+const currentLocation = ref({ lat: 0, lng: 0 });
 const updatePosition = (position: GeolocationPosition) => {
   currentLocation.value.lat = position.coords.latitude;
   currentLocation.value.lng = position.coords.longitude;
+  calcDistance();
 }
 const handleError = (error: GeolocationPositionError) => {
   console.error(error);
   alert(error);
 };
-
 onMounted(() => {
   if (navigator.geolocation) {
     watchId = navigator.geolocation.watchPosition(updatePosition, handleError);
   } else {
     console.error("Geolocation is not supported by this browser.");
   }
+  calcDistance();
 });
-
 onUnmounted(() => {
   if (watchId !== null) {
     navigator.geolocation.clearWatch(watchId);
@@ -82,6 +68,7 @@ function setHomeLocation() {
     homeLocation.value.lat = currentLocation.value.lat;
     homeLocation.value.lng = currentLocation.value.lng;
     localStorage.setItem("EnergyTracker_homeLocation", JSON.stringify(currentLocation.value));
+    calcDistance();
   }
 }
 
@@ -92,16 +79,33 @@ function deleteHomeLocation() {
   }
 }
 
-function calcDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
+const distance = ref(0);
+function calcDistance() {
   const R = 6378137.0;
-  const f1 = lat1 * Math.PI / 180;
-  const f2 = lat2 * Math.PI / 180;
-  const l1 = lng1 * Math.PI / 180;
-  const l2 = lng2 * Math.PI / 180;
+  const f1 = currentLocation.value.lat * Math.PI / 180;
+  const f2 = homeLocation.value.lat * Math.PI / 180;
+  const l1 = currentLocation.value.lng * Math.PI / 180;
+  const l2 = homeLocation.value.lng * Math.PI / 180;
   const a = Math.sin((l2 - l1) / 2) ** 2;
   const b = Math.cos(f1) * Math.cos(f2) * Math.sin((l2 - l1) / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(a + b));
+  distance.value = 2 * R * Math.asin(Math.sqrt(a + b));
+
+  if (distance.value > 3) {
+    sendNotification("ホーム地点から離れています");
+  }
 }
+
+function sendNotification(message: string) {
+  if (Notification.permission === "granted") {
+    new Notification(message);
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        new Notification(message);
+      }
+    });
+  }
+};
 </script>
 
 <style scoped lang="scss">
