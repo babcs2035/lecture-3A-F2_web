@@ -140,8 +140,8 @@ export default defineNuxtConfig({
       ],
       "start_url": baseURL,
       "display": "standalone",
-      "background_color": "#ffffff",
-      "theme_color": "#000000"
+      "background_color": "#E9F5FB",
+      "theme_color": "#E9F5FB"
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
