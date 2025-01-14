@@ -5,6 +5,10 @@
       <section class="devices-container">
         <o-tile v-for="device in devicesData" :key="device" :device-id="device" />
       </section>
+      <div>
+        <p>緯度：{{ location.lat }}</p>
+        <p>経度：{{ location.lng }}</p>
+      </div>
     </client-only>
   </article>
 </template>
@@ -21,6 +25,23 @@ onValue(dbRef(db, `devices`), (data) => {
   }
 });
 
+async function getLocation() {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        resolve({ lat: position.coords.latitude, lng: position.coords.longitude });
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+      reject("Geolocation is not supported by this browser.");
+    }
+  });
+}
+
+const location = ref({ lat: 0, lng: 0 });
+setInterval(async () => {
+  location.value = await getLocation();
+}, 1000);
 </script>
 
 <style scoped lang="scss">

@@ -138,14 +138,14 @@ export default defineNuxtConfig({
           "type": "image/png"
         }
       ],
-      "start_url": "/",
+      "start_url": baseURL,
       "display": "standalone",
       "background_color": "#ffffff",
       "theme_color": "#000000"
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
-      navigateFallback: "/"
+      navigateFallback: baseURL
     },
     client: {
       installPrompt: true,
