@@ -1,11 +1,12 @@
 <template>
   <nuxt-layout>
+    <nuxt-pwa-manifest />
     <nuxt-page />
   </nuxt-layout>
 </template>
 
 <script setup lang="ts">
-const defaultTitle = "amp-track";
+const defaultTitle = "Energy Track";
 
 useHead({
   titleTemplate: (titleChunk) => {

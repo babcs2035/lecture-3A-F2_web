@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const APP_MODE = process.env.APP_MODE || "local";
-const baseURL = APP_MODE === "local" ? "/" : "/amp-track/";
-const fullURL = APP_MODE === "local" ? "http://localhost:3000" : "https://ktak.dev/amp-track";
+const baseURL = APP_MODE === "local" ? "/" : "/energy-track/";
+const fullURL = APP_MODE === "local" ? "http://localhost:3000" : "https://ktak.dev/energy-track";
 process.env.TZ = "Asia/Tokyo";
 
 export default defineNuxtConfig({
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  modules: ["@nuxt/eslint", "vuetify-nuxt-module", "nuxt-vuefire"],
+  modules: ["@nuxt/eslint", "vuetify-nuxt-module", "nuxt-vuefire", "@vite-pwa/nuxt"],
   vuefire: {
     config: {
       apiKey: process.env.FIREBASE_API_KEY,
@@ -63,12 +63,12 @@ export default defineNuxtConfig({
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { name: "title", content: "amp-track" },
+        { name: "title", content: "Energy Track" },
         // { name: "description", content: "" },
-        { name: "apple-mobile-web-app-title", content: "amp-track" },
+        { name: "apple-mobile-web-app-title", content: "Energy Track" },
         // { name: "thumbnail", content: ogImage },
-        { property: "og:title", content: "amp-track" },
-        { property: "og:site_name", content: "amp-track" },
+        { property: "og:title", content: "Energy Track" },
+        { property: "og:site_name", content: "Energy Track" },
         // { property: "og:description", content: "" },
         // { property: "og:image", content: ogImage },
         { property: "og:type", content: "website" },
@@ -81,4 +81,83 @@ export default defineNuxtConfig({
       failOnError: false,
     },
   },
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      "name": "Energy Track",
+      "short_name": "Energy Track",
+      "icons": [
+        {
+          "src": "icons/icon-48x48.png",
+          "sizes": "48x48",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-72x72.png",
+          "sizes": "72x72",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-128x128.png",
+          "sizes": "128x128",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-144x144.png",
+          "sizes": "144x144",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-152x152.png",
+          "sizes": "152x152",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-256x256.png",
+          "sizes": "256x256",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-384x384.png",
+          "sizes": "384x384",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/icon-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        }
+      ],
+      "start_url": "/",
+      "display": "standalone",
+      "background_color": "#ffffff",
+      "theme_color": "#000000"
+    },
+    workbox: {
+      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      navigateFallback: "/"
+    },
+    client: {
+      installPrompt: true,
+      // you don"t need to include this: only for testing purposes
+      // if enabling periodic sync for update use 1 hour or so (periodicSyncForUpdates: 3600)
+      periodicSyncForUpdates: 3600,
+    },
+    devOptions: {
+      enabled: true,
+      suppressWarnings: true,
+      navigateFallbackAllowlist: [/^\/$/],
+      type: "module",
+    },
+  }
 })
