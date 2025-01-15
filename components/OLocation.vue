@@ -91,48 +91,72 @@ function calcDistance() {
   distance.value = 2 * R * Math.asin(Math.sqrt(a + b));
 }
 
+function sendNotification(message: string) {
+  if (Notification.permission === "granted") {
+    new Notification(message);
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        new Notification(message);
+      }
+    });
+  }
+};
+
+setInterval(() => {
+  calcDistance();
+  if (distance.value >= 10) {
+    function getLatestNotification(deviceId: string) {
+      const notifications = JSON.parse(localStorage.getItem("EnergyTracker_notifications") || "[]");
+      return notifications.filter((notification: { datetime: string; deviceId: string }) => notification.deviceId === deviceId).pop();
+    }
+
+    const statusData = useState("statusData");
+    for (const deviceId in statusData.value) {
+      if (statusData.value[deviceId] === "ON") {
+        sendNotification(`デバイス ${deviceId} がオンのままだよ`);
+        const notifications = JSON.parse(localStorage.getItem("EnergyTracker_notifications") || "[]");
+        notifications.push({ datetime: new Date().toISOString(), deviceId });
+        localStorage.setItem("EnergyTracker_notifications", JSON.stringify(notifications));
+      }
+    }
+  }
+}, 5000);
 </script>
 
 <style scoped lang="scss">
-.button-container
-{
+.button-container {
   margin-top: 2em;
 }
 
-:deep(.v-overlay__content)
-{
+:deep(.v-overlay__content) {
   width: fit-content;
 
-  .popup-container
-  {
+  .popup-container {
     width: 80vw;
     max-width: 512px;
     margin: 0;
     padding: 1.5em 2em;
 
-    .map
-    {
+    .map {
       width: 100%;
       margin: 1.5em 0;
 
       aspect-ratio: 1;
     }
 
-    .button
-    {
+    .button {
       margin-top: 1em;
     }
   }
 }
 
 
-:deep(.leaflet-div-icon)
-{
+:deep(.leaflet-div-icon) {
   border: none;
   background: transparent;
 
-  img
-  {
+  img {
     width: 24px;
 
     aspect-ratio: 1;

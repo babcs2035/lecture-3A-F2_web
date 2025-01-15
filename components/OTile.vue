@@ -28,6 +28,7 @@ const props = defineProps<{
 }>();
 const datetime = ref<Date | null>(null);
 const status = ref<"ON" | "OFF" | "UNKNOWN">("UNKNOWN");
+const statusData = useState("statusData");
 const power = ref<number | null>(null);
 
 const db = getDatabase();
@@ -44,6 +45,8 @@ function updateStatus() {
   } else {
     status.value = power.value > 2 ? "ON" : "OFF";
   }
+  if (!statusData.value) statusData.value = {};
+  statusData.value[props.deviceId] = status.value;
 }
 
 setInterval(() => {
