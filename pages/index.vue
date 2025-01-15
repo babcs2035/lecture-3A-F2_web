@@ -1,12 +1,10 @@
 <template>
   <article>
-    <client-only>
-      <h2 class="devices-num">デバイス数：{{ devicesData.length }}</h2>
-      <section class="devices-container">
-        <o-tile v-for="device in devicesData" :key="device" :device-id="device" />
-      </section>
-      <o-location />
-    </client-only>
+    <h2 class="devices-num">デバイス数：{{ devicesData.length }}</h2>
+    <section class="devices-container">
+      <o-tile v-for="device in devicesData" :key="device" :device-id="device" />
+    </section>
+    <o-location />
   </article>
 </template>
 
@@ -24,13 +22,11 @@ onValue(dbRef(db, `devices`), (data) => {
 </script>
 
 <style scoped lang="scss">
-article
-{
+article {
   width: 100%;
   padding: 1.5em 2em;
 
-  .devices-num
-  {
+  .devices-num {
     width: fit-content;
     margin-bottom: 1em;
     padding: 0 0.5em;
@@ -38,8 +34,7 @@ article
     border-bottom: 2px solid $main1_dull;
   }
 
-  .devices-container
-  {
+  .devices-container {
     display: flex;
     flex-wrap: wrap;
 

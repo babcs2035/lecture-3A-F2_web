@@ -4,6 +4,6 @@ export type StatusT = {
 };
 
 export type AmpereT = {
-  datetime: string;
+  datetime: Date;
   ampere: number;
 };

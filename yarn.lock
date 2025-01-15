@@ -5178,6 +5178,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chartjs-adapter-date-fns@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "chartjs-adapter-date-fns@npm:3.0.0"
+  peerDependencies:
+    chart.js: ">=2.8.0"
+    date-fns: ">=2.0.0"
+  checksum: bc785632da9e6253a969c84f5d382e39944246de8410285f060d6715b3ed681cee80142bb2c410329b4c21094efc6d54f9c289200463dce865f736a01a76de4b
+  languageName: node
+  linkType: hard
+
 "chokidar@npm:^3.5.1, chokidar@npm:^3.6.0":
   version: 3.6.0
   resolution: "chokidar@npm:3.6.0"
@@ -5691,6 +5701,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
+  languageName: node
+  linkType: hard
+
 "db0@npm:^0.2.1":
   version: 0.2.1
   resolution: "db0@npm:0.2.1"
@@ -6059,7 +6076,9 @@ __metadata:
     "@vite-pwa/nuxt": "npm:^0.10.6"
     "@vue/eslint-config-prettier": "npm:^10.1.0"
     chart.js: "npm:^4.4.7"
+    chartjs-adapter-date-fns: "npm:^3.0.0"
     cross-env: "npm:^7.0.3"
+    date-fns: "npm:^4.1.0"
     eslint: "npm:^9.17.0"
     eslint-plugin-nuxt: "npm:^4.0.0"
     eslint-plugin-prettier: "npm:^5.2.1"

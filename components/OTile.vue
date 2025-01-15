@@ -5,7 +5,7 @@
         <p class="title heading-font">{{ deviceId }}</p>
         <p class="info">{{ status }}</p>
         <p v-if="status !== 'UNKNOWN'" class="info">{{ ampere }} mA</p>
-        <p class="datetime">{{ datetime }}</p>
+        <p class="datetime">{{ datetime.toLocaleString() }}</p>
       </v-btn>
     </template>
 
@@ -26,7 +26,7 @@ import { formatDate } from "@/libs/date";
 const props = defineProps<{
   deviceId: string;
 }>();
-const datetime = ref<string | null>(null);
+const datetime = ref<Date | null>(null);
 const status = ref<"ON" | "OFF" | "UNKNOWN">("UNKNOWN");
 const ampere = ref<number | null>(null);
 
@@ -34,11 +34,22 @@ const db = getDatabase();
 onValue(dbRef(db, `devices/${props.deviceId}/status`), (data) => {
   datetime.value = formatDate(Object.keys(data.val()).pop() as string);
   status.value = Object.values(data.val()).pop() as boolean ? "ON" : "OFF";
+  updateStatus();
 });
 onValue(dbRef(db, `devices/${props.deviceId}/ampere`), (data) => {
   datetime.value = formatDate(Object.keys(data.val()).pop() as string);
   ampere.value = Object.values(data.val()).pop() as number;
 });
+
+function updateStatus() {
+  if (new Date().getTime() - datetime.value!.getTime() > 1000 * 60) {
+    status.value = "UNKNOWN";
+  }
+}
+
+setInterval(() => {
+  updateStatus();
+}, 1000);
 
 function getTileStyle() {
   if (status.value === "ON") {
@@ -97,5 +108,9 @@ function getTileStyle() {
     color: rgba($text_black, 0.8);
     font-size: 1em;
   }
+}
+
+:deep(.v-overlay__content) {
+  width: fit-content !important;
 }
 </style>

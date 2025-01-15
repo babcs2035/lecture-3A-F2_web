@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { Line } from "vue-chartjs";
-import { ref, watch } from 'vue';
+import { ref, watch } from "vue";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,8 +13,10 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  TimeScale
 } from "chart.js";
+import "chartjs-adapter-date-fns";
 
 ChartJS.register(
   CategoryScale,
@@ -23,13 +25,15 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  TimeScale
 );
 
 const props = defineProps<{
   labels: string[];
   label: string;
   data: number[];
+  period: string;
 }>();
 
 const chartData = ref({
@@ -43,6 +47,33 @@ const chartData = ref({
   ],
 });
 
+const options = ref({
+  responsive: false,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      type: "time",
+      time: {
+        unit: props.period === "1 Hour" ? "minute" : props.period === "1 Day" ? "hour" : "day",
+        tooltipFormat: "PPpp", // Customize the tooltip format
+        displayFormats: {
+          day: "MMM d", // Customize the display format for days
+        },
+      },
+      title: {
+        display: true,
+        text: "Date & Time",
+      },
+    },
+    y: {
+      title: {
+        display: true,
+        text: props.label,
+      },
+    },
+  },
+});
+
 const renderKey = ref(0);
 watch(
   () => props,
@@ -50,20 +81,17 @@ watch(
     chartData.value.labels = newProps.labels;
     chartData.value.datasets[0].label = newProps.label;
     chartData.value.datasets[0].data = newProps.data;
+    options.value.scales.x.time.unit = newProps.period === "1 Hour" ? "minute" : newProps.period === "1 Day" ? "hour" : "day";
     renderKey.value++;
   },
   { deep: true }
 );
-
-const options = {
-  responsive: false,
-  maintainAspectRatio: false,
-};
 </script>
 
 <style scoped>
 .line {
-  max-width: 100%;
-  height: 256px;
+  width: 100% !important;
+
+  aspect-ratio: 4/3 !important;
 }
 </style>

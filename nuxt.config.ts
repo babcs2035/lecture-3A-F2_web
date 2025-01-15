@@ -160,7 +160,4 @@ export default defineNuxtConfig({
       type: "module",
     },
   },
-  plugins: [
-    { src: '~/plugins/register-sw.js', mode: 'client' }
-  ]
 })

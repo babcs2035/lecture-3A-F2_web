@@ -1,8 +1,10 @@
 <template>
-  <nuxt-layout>
-    <nuxt-pwa-manifest />
-    <nuxt-page />
-  </nuxt-layout>
+  <client-only>
+    <nuxt-layout>
+      <nuxt-pwa-manifest />
+      <nuxt-page />
+    </nuxt-layout>
+  </client-only>
 </template>
 
 <script setup lang="ts">
