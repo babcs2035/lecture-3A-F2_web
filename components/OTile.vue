@@ -4,13 +4,12 @@
       <v-btn v-bind="activatorProps" class="tile-container" :style="getTileStyle()">
         <p class="title heading-font">{{ deviceId }}</p>
         <p class="info">{{ status }}</p>
-        <p v-if="status !== 'UNKNOWN'" class="info">{{ ampere }} mA</p>
+        <p v-if="status !== 'UNKNOWN'" class="info">{{ power >= 90 ? "OVER 90 W" : `${power} W` }}</p>
         <p class="datetime">{{ datetime.toLocaleString() }}</p>
       </v-btn>
     </template>
-
     <template v-slot:default="{ isActive }">
-      <m-detail :device-id="deviceId" />
+      <m-detail :device-id="deviceId" :status="status" />
       <!-- <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn text="Close Dialog" @click="isActive.value = false"></v-btn>
@@ -22,28 +21,28 @@
 <script setup lang="ts">
 import { getDatabase, ref as dbRef, onValue } from "firebase/database";
 import { formatDate } from "@/libs/date";
+import { calcPower } from "@/libs/power";
 
 const props = defineProps<{
   deviceId: string;
 }>();
 const datetime = ref<Date | null>(null);
 const status = ref<"ON" | "OFF" | "UNKNOWN">("UNKNOWN");
-const ampere = ref<number | null>(null);
+const power = ref<number | null>(null);
 
 const db = getDatabase();
-onValue(dbRef(db, `devices/${props.deviceId}/status`), (data) => {
+onValue(dbRef(db, `devices/${props.deviceId}/amp`), (data) => {
   datetime.value = formatDate(Object.keys(data.val()).pop() as string);
-  status.value = Object.values(data.val()).pop() as boolean ? "ON" : "OFF";
+  const amp = Object.values(data.val()).pop() as number;
+  power.value = calcPower(amp);
   updateStatus();
-});
-onValue(dbRef(db, `devices/${props.deviceId}/ampere`), (data) => {
-  datetime.value = formatDate(Object.keys(data.val()).pop() as string);
-  ampere.value = Object.values(data.val()).pop() as number;
 });
 
 function updateStatus() {
   if (new Date().getTime() - datetime.value!.getTime() > 1000 * 60) {
     status.value = "UNKNOWN";
+  } else {
+    status.value = power.value > 2 ? "ON" : "OFF";
   }
 }
 

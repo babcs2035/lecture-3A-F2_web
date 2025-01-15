@@ -1,9 +1,4 @@
-export type StatusT = {
-  datetime: string;
-  status: boolean;
-};
-
-export type AmpereT = {
+export type RecordT = {
   datetime: Date;
-  ampere: number;
+  power: number;
 };

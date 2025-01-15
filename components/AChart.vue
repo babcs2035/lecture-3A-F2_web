@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import { Line } from "vue-chartjs";
-import { ref, watch } from "vue";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -47,6 +46,20 @@ const chartData = ref({
   ],
 });
 
+function getUnit() {
+  switch (props.period) {
+    case "10 Minutes":
+      return "minute";
+    case "1 Hour":
+      return "minute";
+    case "12 Hours":
+      return "hour";
+    case "1 Day":
+      return "hour";
+    case "7 Days":
+      return "day";
+  }
+}
 const options = ref({
   responsive: false,
   maintainAspectRatio: false,
@@ -54,7 +67,7 @@ const options = ref({
     x: {
       type: "time",
       time: {
-        unit: props.period === "1 Hour" ? "minute" : props.period === "1 Day" ? "hour" : "day",
+        unit: getUnit(),
         tooltipFormat: "PPpp", // Customize the tooltip format
         displayFormats: {
           day: "MMM d", // Customize the display format for days
