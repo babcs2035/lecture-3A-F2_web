@@ -125,10 +125,6 @@ setInterval(() => {
 </script>
 
 <style scoped lang="scss">
-.button-container {
-  margin-top: 2em;
-}
-
 :deep(.v-overlay__content) {
   width: fit-content;
 

@@ -1,5 +1,7 @@
 <template>
-  <Line class="line" :key="`${label}-line-${renderKey}`" :data="chartData" :options="options" />
+  <div class="chart-wrapper">
+    <Line class="line" :key="`${label}-line-${renderKey}`" :data="chartData" :options="options" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -39,6 +41,7 @@ const chartData = ref({
   labels: props.labels,
   datasets: [
     {
+      lineTension: 0,
       label: props.label,
       backgroundColor: "#f87979",
       data: props.data,
@@ -63,6 +66,7 @@ function getUnit() {
 const options = ref({
   responsive: false,
   maintainAspectRatio: false,
+  animation: false,
   scales: {
     x: {
       type: "time",
@@ -74,16 +78,19 @@ const options = ref({
         },
       },
       title: {
-        display: true,
+        display: false,
         text: "Date & Time",
       },
     },
     y: {
       title: {
-        display: true,
+        display: false,
         text: props.label,
       },
     },
+  },
+  legend: {
+    display: false,
   },
 });
 
@@ -94,17 +101,28 @@ watch(
     chartData.value.labels = newProps.labels;
     chartData.value.datasets[0].label = newProps.label;
     chartData.value.datasets[0].data = newProps.data;
-    options.value.scales.x.time.unit = newProps.period === "1 Hour" ? "minute" : newProps.period === "1 Day" ? "hour" : "day";
+    options.value.scales.x.time.unit = getUnit();
     renderKey.value++;
   },
   { deep: true }
 );
 </script>
 
-<style scoped>
-.line {
-  width: 100% !important;
+<style scoped lang="scss">
+.chart-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: auto hidden;
 
-  aspect-ratio: 4/3 !important;
+  .line {
+    padding: 0.5em;
+
+    @include pc {
+      width: 100% !important;
+    }
+    @include notpc {
+      height: 320px !important;
+    }
+  }
 }
 </style>

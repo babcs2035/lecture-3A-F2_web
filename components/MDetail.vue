@@ -8,7 +8,7 @@
     <div v-if="filteredPowerData.length > 0">
       <a-chart :labels="filteredPowerData.map((dat) => dat.datetime)" label="Power"
         :data="filteredPowerData.map((dat) => dat.power)" :period="selectedPeriod" />
-      <v-table class="table" density="compact" fixed-header>
+      <!-- <v-table class="table" density="compact" fixed-header>
         <thead>
           <tr>
             <th>Date</th>
@@ -21,7 +21,26 @@
             <td>{{ power.power }} W</td>
           </tr>
         </tbody>
-      </v-table>
+      </v-table> -->
+      <div class="details">
+        <table>
+          <thead>
+            <tr>
+              <th>Max</th>
+              <th>Avg</th>
+              <th>Min</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ maxPower.toFixed(1) }} W</td>
+              <td>{{ averagePower.toFixed(1) }} W</td>
+              <td>{{ minPower.toFixed(1) }} W</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Last Updated: {{ filteredPowerData[filteredPowerData.length - 1].datetime.toLocaleString() }}</p>
+      </div>
     </div>
     <p v-else>データがありません</p>
   </v-card>
@@ -74,7 +93,6 @@ const filteredPowerData = computed(() => {
       cutoffDate = new Date(now.getTime() - 1000 * 60 * 60 * 24 * 7);
       break;
   }
-
   return powerData.value.filter((data) => new Date(data.datetime) >= cutoffDate);
 });
 
@@ -98,6 +116,26 @@ function getStatusStyle() {
     }
   }
 }
+
+const averagePower = ref(0);
+const maxPower = ref(0);
+const minPower = ref(0);
+watch(filteredPowerData, () => {
+  let sum = 0;
+  maxPower.value = 0;
+  minPower.value = Number.MAX_SAFE_INTEGER;
+  for (const data of filteredPowerData.value) {
+    const n = Number(data.power);
+    sum += n;
+    if (n > maxPower.value) {
+      maxPower.value = n;
+    }
+    if (n < minPower.value) {
+      minPower.value = n;
+    }
+  }
+  averagePower.value = sum / filteredPowerData.value.length;
+});
 </script>
 
 <style scoped lang="scss">
@@ -131,6 +169,29 @@ function getStatusStyle() {
 
   p {
     text-align: center;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1em;
+
+    table {
+      margin-bottom: 1em;
+      border-collapse: collapse;
+
+      th,
+      td {
+        padding: 0.5em 1em;
+        border: 1px solid rgba($main1_dull, 0.5);
+      }
+
+      th {
+        background-color: rgba($main1_dull, 0.2);
+      }
+    }
   }
 }
 </style>
