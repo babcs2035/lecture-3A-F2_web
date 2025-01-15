@@ -30,6 +30,7 @@ article {
 
   .heading {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 1em;
 

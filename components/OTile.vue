@@ -43,7 +43,7 @@ function updateStatus() {
   if (new Date().getTime() - datetime.value!.getTime() > 1000 * 60) {
     status.value = "UNKNOWN";
   } else {
-    status.value = power.value > 2 ? "ON" : "OFF";
+    status.value = power.value > 3 ? "ON" : "OFF";
   }
   if (!statusData.value) statusData.value = {};
   statusData.value[props.deviceId] = status.value;
@@ -51,7 +51,7 @@ function updateStatus() {
 
 setInterval(() => {
   updateStatus();
-}, 1000);
+}, 5000);
 
 function getTileStyle() {
   if (status.value === "ON") {

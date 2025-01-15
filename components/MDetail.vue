@@ -8,20 +8,6 @@
     <div v-if="filteredPowerData.length > 0">
       <a-chart :labels="filteredPowerData.map((dat) => dat.datetime)" label="Power"
         :data="filteredPowerData.map((dat) => dat.power)" :period="selectedPeriod" />
-      <!-- <v-table class="table" density="compact" fixed-header>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Power</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="power in [...filteredPowerData].reverse()" :key="power.datetime">
-            <td>{{ power.datetime.toLocaleString() }}</td>
-            <td>{{ power.power }} W</td>
-          </tr>
-        </tbody>
-      </v-table> -->
       <div class="details">
         <table>
           <thead>
@@ -58,7 +44,7 @@ const props = defineProps<{
 }>();
 
 const powerData = ref<RecordT[]>([]);
-const selectedPeriod = ref<string>("1 Hour");
+const selectedPeriod = ref<string>("10 Minutes");
 const periodOptions = ["10 Minutes", "1 Hour", "12 Hours", "1 Day", "7 Days"];
 
 const db = getDatabase();

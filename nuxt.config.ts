@@ -2,6 +2,7 @@
 const APP_MODE = process.env.APP_MODE || "local";
 const baseURL = APP_MODE === "local" ? "/" : "/energy-track/";
 const fullURL = APP_MODE === "local" ? "http://localhost:3000" : "https://ktak.dev/energy-track";
+const slackURL = process.env.SLACK_WEBHOOK_URL;
 process.env.TZ = "Asia/Tokyo";
 
 export default defineNuxtConfig({
@@ -12,6 +13,7 @@ export default defineNuxtConfig({
       APP_MODE,
       baseURL,
       fullURL,
+      slackURL,
     },
   },
   ssr: false,

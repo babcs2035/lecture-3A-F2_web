@@ -31,6 +31,8 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig();
+
 let watchId: number | null = null;
 const currentLocation = ref({ lat: 0, lng: 0 });
 const updatePosition = (position: GeolocationPosition) => {
@@ -101,6 +103,17 @@ function sendNotification(message: string) {
       }
     });
   }
+
+  const payload = {
+    text: message,
+  };
+  fetch(config.public.slackURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
 };
 
 setInterval(() => {
@@ -126,7 +139,7 @@ setInterval(() => {
 
 <style scoped lang="scss">
 :deep(.v-overlay__content) {
-  width: fit-content;
+  width: fit-content !important;
 
   .popup-container {
     width: 80vw;

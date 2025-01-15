@@ -95,17 +95,13 @@ const options = ref({
 });
 
 const renderKey = ref(0);
-watch(
-  () => props,
-  (newProps) => {
-    chartData.value.labels = newProps.labels;
-    chartData.value.datasets[0].label = newProps.label;
-    chartData.value.datasets[0].data = newProps.data;
-    options.value.scales.x.time.unit = getUnit();
-    renderKey.value++;
-  },
-  { deep: true }
-);
+setInterval(() => {
+  chartData.value.labels = props.labels;
+  chartData.value.datasets[0].label = props.label;
+  chartData.value.datasets[0].data = props.data;
+  options.value.scales.x.time.unit = getUnit();
+  renderKey.value++;
+}, 5000);
 </script>
 
 <style scoped lang="scss">
