@@ -12,6 +12,7 @@
         <table>
           <thead>
             <tr>
+              <th>Now</th>
               <th>Max</th>
               <th>Avg</th>
               <th>Min</th>
@@ -19,6 +20,7 @@
           </thead>
           <tbody>
             <tr>
+              <td>{{ Number(filteredPowerData[filteredPowerData.length - 1].power).toFixed(1) }} W</td>
               <td>{{ maxPower.toFixed(1) }} W</td>
               <td>{{ averagePower.toFixed(1) }} W</td>
               <td>{{ minPower.toFixed(1) }} W</td>
@@ -58,6 +60,10 @@ onValue(dbRef(db, `devices/${props.deviceId}/amp`), (data) => {
   }
 });
 
+const averagePower = ref(0);
+const maxPower = ref(0);
+const minPower = ref(0);
+
 const filteredPowerData = computed(() => {
   const now = new Date();
   let cutoffDate = new Date();
@@ -81,6 +87,7 @@ const filteredPowerData = computed(() => {
   }
   return powerData.value.filter((data) => new Date(data.datetime) >= cutoffDate);
 });
+calcVals(filteredPowerData.value);
 
 function getStatusStyle() {
   if (props.status === "ON") {
@@ -103,14 +110,15 @@ function getStatusStyle() {
   }
 }
 
-const averagePower = ref(0);
-const maxPower = ref(0);
-const minPower = ref(0);
 watch(filteredPowerData, () => {
+  calcVals(filteredPowerData.value);
+});
+
+function calcVals(arr) {
   let sum = 0;
   maxPower.value = 0;
   minPower.value = Number.MAX_SAFE_INTEGER;
-  for (const data of filteredPowerData.value) {
+  for (const data of arr) {
     const n = Number(data.power);
     sum += n;
     if (n > maxPower.value) {
@@ -120,8 +128,8 @@ watch(filteredPowerData, () => {
       minPower.value = n;
     }
   }
-  averagePower.value = sum / filteredPowerData.value.length;
-});
+  averagePower.value = sum / arr.length;
+}
 </script>
 
 <style scoped lang="scss">

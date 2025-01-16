@@ -101,7 +101,7 @@ setInterval(() => {
   chartData.value.datasets[0].data = props.data;
   options.value.scales.x.time.unit = getUnit();
   renderKey.value++;
-}, 5000);
+}, 1000);
 </script>
 
 <style scoped lang="scss">
