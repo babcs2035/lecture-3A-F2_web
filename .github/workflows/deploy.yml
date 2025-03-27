@@ -34,10 +34,15 @@ jobs:
             - name: build project
               run: NODE_OPTIONS="--max-old-space-size=4096" yarn build
 
+            - name: make tarball
+              run: |
+                  touch artifacts.tar.gz
+                  tar --exclude artifacts.tar.gz -zcvf artifacts.tar.gz ./.output/*
+
             - name: deploy to server
               uses: nogsantos/scp-deploy@master
               with:
-                  src: ./.output/*
+                  src: artifacts.tar.gz
                   key: ${{ secrets.SSH_PRIVATEKEY }}
                   host: ${{ secrets.SSH_HOST }}
                   port: ${{ secrets.SSH_PORT }}
@@ -53,4 +58,6 @@ jobs:
                   username: ${{ secrets.SSH_USERNAME }}
                   script: |
                       cd ${{ secrets.SSH_REMOTE }}
+                      tar -zxvf artifacts.tar.gz
+                      rm -rf artifacts.tar.gz
                       ~/.volta/bin/pm2 restart pm2.config.js --update-env
